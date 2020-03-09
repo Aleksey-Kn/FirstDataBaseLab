@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -85,9 +84,7 @@ public class HorisontalPanel extends JPanel {
                 statement.executeUpdate("delete from " + nameOfBase + " where " + nameOfBase + ".key = " + target);
                 statement.close();
                 connection.close();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
+            } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
         });
