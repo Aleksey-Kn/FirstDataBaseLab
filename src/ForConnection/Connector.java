@@ -1,3 +1,7 @@
+package ForConnection;
+
+import ForConnection.Configs;
+
 import java.sql.*;
 
 public class Connector extends Configs {

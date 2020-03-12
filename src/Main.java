@@ -1,4 +1,4 @@
-import com.mysql.cj.protocol.Resultset;
+import ForConnection.Connector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

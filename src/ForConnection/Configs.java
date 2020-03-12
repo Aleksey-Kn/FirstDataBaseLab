@@ -1,3 +1,5 @@
+package ForConnection;
+
 public class Configs {
     protected static final String host = "localhost";
     protected static final String port = "3306";
