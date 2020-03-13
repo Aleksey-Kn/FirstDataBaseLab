@@ -1,6 +1,10 @@
+import FiledFrames.FiveFiledFrame;
+import FiledFrames.FourFieldFrame;
 import ForConnection.Connector;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -65,13 +69,21 @@ public class HorisontalPanel extends JPanel {
         JButton last = new JButton(new ImageIcon("last.jpeg"));
         last.addActionListener(l -> {
             int grc = table.getRowCount();
-            table.setRowSelectionInterval(grc, grc);
+            table.setRowSelectionInterval(grc - 1, grc - 1);
             textField.setText(Integer.toString(grc));
         });
         add(last);
         add(new JSeparator(JSeparator.VERTICAL));
 
         JButton add = new JButton(new ImageIcon("add.png"));
+        add.addActionListener(l -> {
+            if(nameOfBase.equals("Facultet")){
+                new FourFieldFrame(tableModel);
+            }
+            else {
+                new FiveFiledFrame(tableModel, nameOfBase);
+            }
+        });
         add(add);
 
         JButton delete = new JButton(new ImageIcon("delete.png"));
@@ -91,5 +103,7 @@ public class HorisontalPanel extends JPanel {
             }
         });
         add(delete);
+
+        table.getSelectionModel().addListSelectionListener(l -> textField.setText(Integer.toString(table.getSelectedRow() + 1)));
     }
 }

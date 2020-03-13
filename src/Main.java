@@ -44,6 +44,8 @@ public class Main extends JFrame{
             secondScrollPane.setBounds(25, 185, 650, 100);
             add(secondScrollPane);
 
+            add(new HorisontalPanel(secondModel, secondTable,"Grups", 25, 285));
+
             DefaultTableModel thirdModel = new DefaultTableModel();
             JTable thirdTable = new JTable(thirdModel);
             thirdModel.setColumnIdentifiers(new String[]{"Код", "ФИО", "Адрес", "Телефон", "ID группы"});
@@ -55,6 +57,8 @@ public class Main extends JFrame{
             JScrollPane thirdScrollPane = new JScrollPane(thirdTable);
             thirdScrollPane.setBounds(25, 360, 650, 100);
             add(thirdScrollPane);
+
+            add(new HorisontalPanel(thirdModel, thirdTable, "Students", 25, 460));
 
             statement.close();
             connector.close();
