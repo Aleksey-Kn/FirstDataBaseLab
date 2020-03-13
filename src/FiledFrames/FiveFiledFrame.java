@@ -1,7 +1,6 @@
 package FiledFrames;
 
 import ForConnection.Connector;
-import ForConnection.Names;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
@@ -27,7 +26,7 @@ public class FiveFiledFrame extends JFrame {
         forButton.setBounds(15, 150, 60, 20);
 
         labels[0] = new JLabel("Код");
-        if(type == "Group"){
+        if(type.equals("Group")){
             labels[1] = new JLabel("Название группы");
             labels[2] = new JLabel("Фамилия старосты");
             labels[3] = new JLabel("Количество");
@@ -56,7 +55,7 @@ public class FiveFiledFrame extends JFrame {
                 Statement statement = connection.createStatement();
                 statement.executeUpdate("insert into Facultet." + type + " \n" +
                         "values (" + textFields[0].getText() + ", '" + textFields[1].getText() + "', '" + textFields[2].getText() +
-                        "', '" + textFields[3].getText() + "', '" + textFields[4].getText() + "');");
+                        "', '" + textFields[3].getText() + "', " + textFields[4].getText() + ");");
                 statement.close();
                 connection.close();
                 String[] strings = new String[5];
@@ -67,6 +66,7 @@ public class FiveFiledFrame extends JFrame {
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
+            dispose();
         });
         forButton.add(ok);
 
