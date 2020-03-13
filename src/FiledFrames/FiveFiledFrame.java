@@ -64,7 +64,7 @@ public class FiveFiledFrame extends JFrame {
                 }
                 tableModel.addRow(strings);
             } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
             dispose();
         });
