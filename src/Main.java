@@ -3,7 +3,6 @@ import ForConnection.Names;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ public class Main extends JFrame{
             Statement statement = connector.createStatement();
 
             DefaultTableModel firstModel = new DefaultTableModel();
-            JTable firstTable = new JTable(firstModel);
+            JTable firstTable = new MyTable(firstModel);
             firstModel.setColumnIdentifiers(new String[]{"Код", "Факультет", "Курс", "Количество групп"});
             rs = statement.executeQuery("select * from Facultet");
             while (rs.next()){
@@ -38,7 +37,7 @@ public class Main extends JFrame{
             add(new HorisontalPanel(firstModel, firstTable, "Facultet", 25, 110));
 
             DefaultTableModel secondModel = new DefaultTableModel();
-            JTable secondTable = new JTable(secondModel);
+            JTable secondTable = new MyTable(secondModel);
             secondModel.setColumnIdentifiers(new String[]{"Код", "Название группы", "Фамилия старосты", "Количество", "Факультет ID"});
             rs = statement.executeQuery("select * from Grups");
             while (rs.next()){
@@ -52,7 +51,7 @@ public class Main extends JFrame{
             add(new HorisontalPanel(secondModel, secondTable,"Grups", 25, 285));
 
             DefaultTableModel thirdModel = new DefaultTableModel();
-            JTable thirdTable = new JTable(thirdModel);
+            JTable thirdTable = new MyTable(thirdModel);
             thirdModel.setColumnIdentifiers(new String[]{"Код", "ФИО", "Адрес", "Телефон", "ID группы"});
             rs = statement.executeQuery("select * from Students");
             while (rs.next()){
