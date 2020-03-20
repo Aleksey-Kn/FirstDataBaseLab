@@ -1,12 +1,17 @@
 import ForConnection.Connector;
+import ForConnection.Names;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Main extends JFrame{
+    private boolean sortOnProgress = true;
+
     Main(){
         super("Базы данных");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -15,7 +20,7 @@ public class Main extends JFrame{
         ResultSet rs;
 
         try {
-            Connection connector = Connector.getConnection();
+            final Connection connector = Connector.getConnection();
             Statement statement = connector.createStatement();
 
             DefaultTableModel firstModel = new DefaultTableModel();
@@ -60,8 +65,67 @@ public class Main extends JFrame{
 
             add(new HorisontalPanel(thirdModel, thirdTable, "Students", 25, 460));
 
-            statement.close();
-            connector.close();
+            JPanel leftPanel = new JPanel();
+            leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+            leftPanel.setBounds(25, 500, 200, 60);
+            leftPanel.add(new JLabel("Поиск по символам"));
+            JTextField leftTextFiled = new JTextField();
+            leftTextFiled.addActionListener(j -> {
+                int end = thirdTable.getRowCount();
+                thirdTable.removeRowSelectionInterval(0, end - 1);
+                for(int i = 0; i < end; i++){
+                    if(((String) thirdModel.getValueAt(i, 1)).contains(leftTextFiled.getText())){
+                        thirdTable.addRowSelectionInterval(i, i);
+                    }
+                }
+            });
+            leftPanel.add(leftTextFiled);
+            add(leftPanel);
+
+            JPanel rightPanel = new JPanel();
+            rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+            rightPanel.setBounds(250, 500, 200, 60);
+            rightPanel.add(new JLabel("Точный поиск"));
+            JTextField rightTextFiled = new JTextField();
+            rightTextFiled.addActionListener(j -> {
+                int end = thirdTable.getRowCount();
+                thirdTable.removeRowSelectionInterval(0, end - 1);
+                for(int i = 0; i < end; i++){
+                    if(thirdModel.getValueAt(i, 1).equals(rightTextFiled.getText())){
+                        thirdTable.addRowSelectionInterval(i, i);
+                    }
+                }
+            });
+            rightPanel.add(rightTextFiled);
+            add(rightPanel);
+
+            JButton button = new JButton("Сортировать");
+            button.setBounds(500, 500, 180, 25);
+            button.addActionListener(l -> {
+                while (thirdTable.getRowCount() > 0) {
+                    thirdModel.removeRow(0);
+                }
+                try {
+                    ResultSet resultSet = statement.executeQuery("select * from Students order by " + Names.Student.fio);
+                    if(sortOnProgress){
+                        while (resultSet.next()){
+                            thirdModel.addRow(new String[]{resultSet.getString(1), resultSet.getString(2),
+                                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5)});
+                        }
+                    }
+                    else{
+                        while (resultSet.next()){
+                            thirdModel.insertRow(0, new String[]{resultSet.getString(1), resultSet.getString(2),
+                                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5)});
+                        }
+                    }
+                    sortOnProgress = !sortOnProgress;
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+            });
+            add(button);
+
             setVisible(true);
         } catch (Exception e){
             System.out.println(e.getMessage());
