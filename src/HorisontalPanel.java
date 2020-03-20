@@ -88,19 +88,25 @@ public class HorisontalPanel extends JPanel {
 
         JButton delete = new JButton(new ImageIcon("delete.png"));
         delete.addActionListener(l -> {
-            int index = table.getSelectedRow();
-            String target = (String)tableModel.getValueAt(index, 0);
-            tableModel.removeRow(index);
-            label.setText("из " + table.getRowCount());
+            int index;
             try {
                 Connection connection = Connector.getConnection();
                 Statement statement = connection.createStatement();
-                statement.executeUpdate("delete from " + nameOfBase + " where " + nameOfBase + ".key = " + target);
+                while (true) {
+                    index = table.getSelectedRow();
+                    if(index == -1){
+                        break;
+                    }
+                    String target = (String)tableModel.getValueAt(index, 0);
+                    tableModel.removeRow(index);
+                    statement.executeUpdate("delete from " + nameOfBase + " where " + nameOfBase + ".key = " + target);
+                }
                 statement.close();
                 connection.close();
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
+            label.setText("из " + table.getRowCount());
         });
         add(delete);
 

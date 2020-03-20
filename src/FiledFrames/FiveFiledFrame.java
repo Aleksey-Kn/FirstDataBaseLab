@@ -11,19 +11,19 @@ public class FiveFiledFrame extends JFrame {
     public FiveFiledFrame(DefaultTableModel tableModel, String type){
         super("Add element");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setBounds(200, 200, 180, 200);
+        setBounds(200, 200, 360, 400);
         setLayout(null);
 
         JLabel[] labels = new JLabel[5];
         JPanel forLabels = new JPanel();
         forLabels.setLayout(new BoxLayout(forLabels, BoxLayout.Y_AXIS));
-        forLabels.setBounds(15, 20, 60, 100);
+        forLabels.setBounds(15, 20, 120, 200);
         JPanel forText = new JPanel();
         forText.setLayout(new BoxLayout(forText, BoxLayout.Y_AXIS));
-        forText.setBounds(95, 20, 80, 100);
+        forText.setBounds(190, 20, 160, 200);
         JPanel forButton = new JPanel();
         forButton.setLayout(new BoxLayout(forButton, BoxLayout.X_AXIS));
-        forButton.setBounds(15, 150, 60, 20);
+        forButton.setBounds(15, 300, 200, 20);
 
         labels[0] = new JLabel("Код");
         if(type.equals("Group")){
@@ -40,6 +40,7 @@ public class FiveFiledFrame extends JFrame {
         }
         for(JLabel l: labels){
             forLabels.add(l);
+            forLabels.add(new JSeparator(JSeparator.HORIZONTAL));
         }
 
         JTextField[] textFields = new JTextField[5];
